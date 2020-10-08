@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import Playlist from "../../components/Playlist/Playlist";
+import Playlist from "../../container/Playlist";
 import AddIcon from "@material-ui/icons/Add";
-import Player from "../../components/Player/Player";
-import SearchPage from "../../components/SearchPage/SearchPage";
+import Player from "../../container/Player";
+import SearchPage from "../../container/SearchPage";
 import Link from "next/link";
 
 function RoomPage() {
@@ -15,8 +15,8 @@ function RoomPage() {
         <SearchPage handleBack={() => setIsSearch(!isSearch)} />
       ) : (
         <div className="flex flex-col h-screen">
-          <div className="flex-1 py-4 px-4">
-            <div className="flex justify-between mb-4">
+          <div className="flex-1">
+            <div className="flex justify-between sticky top-0 py-4 px-4 bg-white">
               <Link href="/">
                 <button className="flex px-4 py-2 bg-gray-300 items-center">
                   <div className="mr-2">
@@ -31,9 +31,13 @@ function RoomPage() {
                 </button>
               </div>
             </div>
-            <Playlist />
+            <div className="pb-4">
+              <Playlist />
+            </div>
           </div>
-          <Player title="Dinosaur" artist="Akmu" />
+          <div className="sticky bottom-0">
+            <Player />
+          </div>
         </div>
       )}
     </div>

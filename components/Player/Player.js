@@ -8,9 +8,11 @@ function Player(props) {
     <div>
       <ProgressBar percentage={55} />
       <div className="flex bg-pink-500 text-white">
-        <div className="flex-1  py-2 px-4">
-          <div className="text-lg font-bold">{title}</div>
-          <div className="text-sm">{artist}</div>
+        <div className="flex-1  py-2 px-4 overflow-hidden">
+          <div className="text-lg font-bold truncate">
+            {title ? title : "-"}
+          </div>
+          <div className="text-sm truncate">{artist ? artist : "-"}</div>
         </div>
         <div>
           <button className="px-4 h-full">

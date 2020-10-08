@@ -3,7 +3,23 @@ import SearchIcon from "@material-ui/icons/Search";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import SearchItem from "../SearchItem/SearchItem";
 
+const mockSearchResult = [
+  {
+    title: "How can I love the heartbreak, you're the one I love",
+    artist: "AKMU",
+  },
+  {
+    title: "Location Unknown",
+    artist: "HONNE",
+  },
+  {
+    title: "cardigan",
+    artist: "Taylor Swift",
+  },
+];
+
 function SearchPage(props) {
+  const { handleAddSong, handleBack } = props;
   const inputEl = useRef(null);
 
   useEffect(() => {
@@ -13,7 +29,7 @@ function SearchPage(props) {
   return (
     <div className="">
       <div className="flex mb-4 py-4 bg-pink-500 text-white">
-        <button className="px-4 py-2 " onClick={props.handleBack}>
+        <button className="px-4 py-2 " onClick={handleBack}>
           <ArrowBackIcon />
         </button>
         <input
@@ -27,20 +43,21 @@ function SearchPage(props) {
       </div>
       <div className="px-4 ">
         Search Result:
-        <ul className="border-2 border-pink-500 rounded-lg border-b-0 overflow-hidden">
-          <li>
-            <SearchItem
-              title="How can I love the heartbreak, you're the one I love"
-              artist="Akdong Musician"
-            />
-          </li>
-          <li>
-            <SearchItem title="Location Unknown" artist="HONNE" />
-          </li>
-          <li>
-            <SearchItem title="cardigan" artist="Taylor Swift" />
-          </li>
-        </ul>
+        {mockSearchResult && (
+          <ul className="border-2 border-pink-500 rounded-lg border-b-0 overflow-hidden">
+            {mockSearchResult.map((song, id) => (
+              <li key={id}>
+                <SearchItem
+                  title={song.title}
+                  artist={song.artist}
+                  handleAddSong={() =>
+                    handleAddSong({ title: song.title, artist: song.artist })
+                  }
+                />
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );
