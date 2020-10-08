@@ -8,13 +8,13 @@ function Playlist(props) {
     <div>
       Playlist:
       {playlist && playlist.length > 0 ? (
-        <ul className="border-2 border-b-0 border-pink-500 rounded-lg overflow-hidden">
-          {playlist.map((song, id) => (
-            <li key={id}>
+        <ul className="overflow-hidden rounded-lg overflow-hidden">
+          {playlist.map((song, key) => (
+            <li key={key}>
               <PlaylistSong
                 artist={song.artist}
                 title={song.title}
-                handleRemoveSong={() => removeSongFromPlaylist(song.title)}
+                handleRemoveSong={() => removeSongFromPlaylist(song.id)}
                 handleSetNowPlaying={() =>
                   setNowPlaying({ title: song.title, artist: song.artist })
                 }

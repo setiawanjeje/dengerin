@@ -27,7 +27,7 @@ function SearchPage(props) {
   }, []);
 
   return (
-    <div className="">
+    <div className="h-screen bg-white w-full">
       <div className="flex mb-4 py-4 bg-pink-500 text-white">
         <button className="px-4 py-2 " onClick={handleBack}>
           <ArrowBackIcon />
@@ -44,7 +44,7 @@ function SearchPage(props) {
       <div className="px-4 ">
         Search Result:
         {mockSearchResult && (
-          <ul className="border-2 border-pink-500 rounded-lg border-b-0 overflow-hidden">
+          <ul className="rounded-lg overflow-hidden">
             {mockSearchResult.map((song, id) => (
               <li key={id}>
                 <SearchItem

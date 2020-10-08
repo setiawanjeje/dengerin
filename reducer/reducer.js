@@ -1,12 +1,9 @@
+let id = 0;
+
 export const initialState = {
   roomName: "",
   username: "",
-  playlist: [
-    {
-      title: "Mansae",
-      artist: "Seventeen",
-    },
-  ],
+  playlist: [],
   nowPlaying: {
     title: null,
     artist: null,
@@ -66,6 +63,7 @@ export const reducer = (state, action) => {
       };
     case ADD_SONG_TO_PLAYLIST:
       clonePlaylist.push({
+        id: id++,
         title: action.payload.title,
         artist: action.payload.artist,
       });
@@ -76,9 +74,7 @@ export const reducer = (state, action) => {
     case REMOVE_SONG_FROM_PLAYLIST:
       return {
         ...state,
-        playlist: clonePlaylist.filter(
-          (value) => value.title !== action.payload
-        ),
+        playlist: clonePlaylist.filter((value) => value.id !== action.payload),
       };
     default:
       return state;

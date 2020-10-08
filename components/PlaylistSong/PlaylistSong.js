@@ -6,7 +6,7 @@ function PlaylistSong(props) {
   const { title, artist, handleRemoveSong, handleSetNowPlaying } = props;
 
   return (
-    <div className="w-full bg-pink-100 flex align-center border-b-2 border-pink-500">
+    <div className="w-full bg-pink-100 flex align-center">
       <button className="px-4" onClick={handleSetNowPlaying}>
         <PlayArrowIcon />
       </button>
