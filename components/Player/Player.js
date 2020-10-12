@@ -3,7 +3,7 @@ import { PlayArrow, SkipNext } from "@material-ui/icons";
 import ProgressBar from "../ProgressBar/ProgressBar";
 
 function Player(props) {
-  const { title, artist } = props;
+  const { title, artist, onClickPlay } = props;
   return (
     <div>
       <ProgressBar percentage={55} />
@@ -15,7 +15,13 @@ function Player(props) {
           <div className="text-sm truncate">{artist ? artist : "-"}</div>
         </div>
         <div>
-          <button className="px-4 h-full">
+          <button
+            className="px-4 h-full"
+            onClick={() => {
+              console.log("test");
+              onClickPlay();
+            }}
+          >
             <PlayArrow fontSize="large" />
           </button>
           <button className="px-4 h-full">

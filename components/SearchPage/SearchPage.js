@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import SearchItem from "../SearchItem/SearchItem";
+import { searchYT } from "../../services/youtube";
 
 const mockSearchResult = [
   {
@@ -22,6 +23,7 @@ function SearchPage(props) {
   const { handleAddSong, handleBack } = props;
   const inputEl = useRef(null);
   const [input, setInput] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
 
   useEffect(() => {
     inputEl.current.focus();
@@ -32,7 +34,10 @@ function SearchPage(props) {
   };
 
   const handleClick = () => {
-    console.log("test");
+    searchYT(input).then((res) => {
+      const newSearchResult = res.items.map((item) => item.id.videoId);
+      setSearchResult(newSearchResult);
+    });
   };
 
   return (
@@ -54,15 +59,15 @@ function SearchPage(props) {
       </div>
       <div className="px-4 ">
         Search Result:
-        {mockSearchResult && (
+        {searchResult && (
           <ul className="rounded-lg overflow-hidden">
-            {mockSearchResult.map((song, id) => (
+            {searchResult.map((song, id) => (
               <li key={id}>
                 <SearchItem
-                  title={song.title}
-                  artist={song.artist}
+                  title={id}
+                  artist={song}
                   handleAddSong={() =>
-                    handleAddSong({ title: song.title, artist: song.artist })
+                    handleAddSong({ title: id, artist: song })
                   }
                 />
               </li>

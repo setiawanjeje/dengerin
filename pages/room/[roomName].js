@@ -1,14 +1,17 @@
 import React, { useState } from "react";
+import NoSSR from "react-no-ssr";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Playlist from "../../container/Playlist";
 import AddIcon from "@material-ui/icons/Add";
 import Player from "../../container/Player";
 import SearchPage from "../../container/SearchPage";
 import Link from "next/link";
+import ReactPlayerContainer from "../../container/ReactPlayerContainer";
 import { useTransition, animated, config } from "react-spring";
 
 function RoomPage() {
   const [isSearch, setIsSearch] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const transitionSearchPage = useTransition(isSearch, null, {
     from: { top: "100px", opacity: 0 },
     enter: { top: "0%", opacity: 1 },
@@ -36,11 +39,16 @@ function RoomPage() {
             </div>
           </div>
         </div>
+        <div>
+          <NoSSR>
+            <ReactPlayerContainer playing={isPlaying} />
+          </NoSSR>
+        </div>
         <div className="flex-1 pb-4 overflow-auto px-4">
           <Playlist />
         </div>
         <div className="sticky bottom-0">
-          <Player />
+          <Player onClickPlay={() => setIsPlaying(!isPlaying)} />
         </div>
       </div>
       {transitionSearchPage.map(
