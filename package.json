@@ -10,13 +10,18 @@
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "axios": "^0.20.0",
     "formik": "^2.1.7",
     "next": "9.5.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-player": "^2.6.2",
     "react-redux": "^7.2.1",
     "react-spring": "^8.0.27",
     "redux": "^4.0.5",
     "tailwindcss": "^1.8.10"
+  },
+  "devDependencies": {
+    "http-to-curl": "^1.4.3"
   }
 }
