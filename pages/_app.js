@@ -1,11 +1,16 @@
 import "../styles/globals.css";
 import styles from "../styles/Base.module.css";
 import Head from "next/head";
-import { createStore } from "redux";
+import { createStore, compose } from "redux";
 import { Provider } from "react-redux";
 import { initialState, reducer } from "../reducer/reducer";
 
-const store = createStore(reducer, initialState);
+const composeEnhancers =
+  (typeof window !== "undefined" &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+  compose;
+
+const store = createStore(reducer, initialState, composeEnhancers());
 
 function MyApp({ Component, pageProps }) {
   return (

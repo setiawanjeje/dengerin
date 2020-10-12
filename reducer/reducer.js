@@ -7,6 +7,7 @@ export const initialState = {
   nowPlaying: {
     title: null,
     artist: null,
+    videoId: null,
   },
 };
 
@@ -59,6 +60,7 @@ export const reducer = (state, action) => {
         nowPlaying: {
           title: action.payload.title,
           artist: action.payload.artist,
+          videoId: action.payload.videoId,
         },
       };
     case ADD_SONG_TO_PLAYLIST:
