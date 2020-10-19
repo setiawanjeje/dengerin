@@ -11,11 +11,12 @@ import MenuIcon from "@material-ui/icons/Menu";
 import MusicNoteIcon from "@material-ui/icons/MusicNote";
 
 function RoomPage() {
-  const playerRef = useRef(null);
+  const playerRef = React.createRef();
   const [isSearch, setIsSearch] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isShowMenu, setIsShowMenu] = useState(false);
   const [videoProgressPercentage, setVideoProgressPercentage] = useState(0);
+  const [videoDuration, setVideoDuration] = useState(0);
   const transitionSearchPage = useTransition(isSearch, null, {
     from: { top: "50px", opacity: 0 },
     enter: { top: "0%", opacity: 1 },
@@ -30,13 +31,8 @@ function RoomPage() {
   });
 
   const handleOnPlaying = (payload) => {
-    console.log(playerRef);
-    if (payload.playedSeconds !== 0) {
-      // TODO: get duration from ref
-      console.log(payload);
-      setVideoProgressPercentage(
-        (payload.playedSeconds / payload.loadedSeconds) * 100
-      );
+    if (payload.playedSeconds !== 0 && videoDuration !== 0) {
+      setVideoProgressPercentage((payload.playedSeconds / videoDuration) * 100);
     }
   };
 
@@ -71,7 +67,7 @@ function RoomPage() {
               height="30vh"
               style={{ maxHeight: "320px" }}
               onProgress={handleOnPlaying}
-              ref={playerRef}
+              onDuration={(value) => setVideoDuration(value)}
             />
           </NoSSR>
         </div>
