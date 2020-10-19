@@ -1,12 +1,14 @@
 import React from "react";
-import { PlayArrow, SkipNext } from "@material-ui/icons";
+import { Pause, PlayArrow, SkipNext } from "@material-ui/icons";
 import ProgressBar from "../ProgressBar/ProgressBar";
 
 function Player(props) {
-  const { title, artist, onClickPlay } = props;
+  const { title, artist, onClickPlay, progressNowPlaying, isPlaying } = props;
+
+  const IconComponent = isPlaying ? Pause : PlayArrow;
   return (
     <div>
-      <ProgressBar percentage={55} />
+      <ProgressBar percentage={progressNowPlaying} />
       <div className="flex bg-pink-500 text-white">
         <div className="flex-1  py-2 px-4 overflow-hidden">
           <div className="text-lg font-bold truncate">
@@ -18,11 +20,10 @@ function Player(props) {
           <button
             className="px-4 h-full"
             onClick={() => {
-              console.log("test");
               onClickPlay();
             }}
           >
-            <PlayArrow fontSize="large" />
+            <IconComponent fontSize="large" />
           </button>
           <button className="px-4 h-full">
             <SkipNext fontSize="large" />

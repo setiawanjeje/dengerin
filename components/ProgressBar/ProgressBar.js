@@ -1,19 +1,21 @@
 import React from "react";
-import { PlayArrow, SkipNext } from "@material-ui/icons";
+import { useSpring, animated } from "react-spring";
 
-function Player(props) {
+function ProgressBar(props) {
   const { percentage } = props;
+  const styleProps = useSpring({ width: `${percentage}%` });
+
   return (
     <div
       className="w-full relative bg-gray-300"
       style={{ width: "100%", height: "4px" }}
     >
-      <div
+      <animated.div
         className="absolute bg-pink-600 rounded-r-full"
-        style={{ width: `${percentage}%`, height: "4px" }}
-      ></div>
+        style={{ height: "4px", ...styleProps }}
+      ></animated.div>
     </div>
   );
 }
 
-export default Player;
+export default ProgressBar;

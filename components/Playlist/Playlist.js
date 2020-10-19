@@ -5,7 +5,7 @@ function Playlist(props) {
   const { playlist, removeSongFromPlaylist, setNowPlaying } = props;
 
   return (
-    <div>
+    <div className="py-4">
       Playlist:
       {playlist && playlist.length > 0 ? (
         <ul className="overflow-hidden rounded-lg overflow-hidden">
@@ -16,7 +16,11 @@ function Playlist(props) {
                 title={song.title}
                 handleRemoveSong={() => removeSongFromPlaylist(song.id)}
                 handleSetNowPlaying={() =>
-                  setNowPlaying({ title: song.title, artist: song.artist })
+                  setNowPlaying({
+                    title: song.title,
+                    artist: song.artist,
+                    videoId: song.videoId,
+                  })
                 }
               />
             </li>

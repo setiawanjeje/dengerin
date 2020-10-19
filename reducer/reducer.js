@@ -5,9 +5,9 @@ export const initialState = {
   username: "",
   playlist: [],
   nowPlaying: {
-    title: null,
-    artist: null,
-    videoId: null,
+    title: "[MV] Zion.T _ Eat(꺼내 먹어요)",
+    artist: "1theK (원더케이)",
+    videoId: "Ibb5RhoKfzE",
   },
 };
 
@@ -65,7 +65,7 @@ export const reducer = (state, action) => {
       };
     case ADD_SONG_TO_PLAYLIST:
       clonePlaylist.push({
-        id: id++,
+        videoId: action.payload.videoId,
         title: action.payload.title,
         artist: action.payload.artist,
       });

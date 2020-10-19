@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import SearchItem from "../SearchItem/SearchItem";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import { searchYT } from "../../services/youtube";
 
 const mockSearchResult = [
@@ -29,15 +30,17 @@ function SearchPage(props) {
     inputEl.current.focus();
   }, []);
 
-  const handleChange = (e) => {
-    setInput(e.target.value);
-  };
-
-  const handleClick = () => {
-    searchYT(input).then((res) => {
-      const newSearchResult = res.items.map((item) => item.id.videoId);
-      setSearchResult(newSearchResult);
-    });
+  const handleSubmit = (values) => {
+    // searchYT(values.searchInput).then((res) => {
+    //   const newSearchResult = res.items.map((item) => {
+    //     return {
+    //       artist: item.snippet.channelTitle,
+    //       title: item.snippet.title,
+    //       videoId: item.id.videoId,
+    //     };
+    //   });
+    //   setSearchResult(newSearchResult);
+    // });
   };
 
   return (
@@ -46,33 +49,42 @@ function SearchPage(props) {
         <button className="px-4 py-2 " onClick={handleBack}>
           <ArrowBackIcon />
         </button>
-        <input
-          className="block w-full border-2 px-4 py-2 rounded-lg text-black"
-          placeholder="Search Youtube or paste Youtube URL"
-          ref={inputEl}
-          value={input}
-          onChange={handleChange}
-        />
-        <button className="px-4 py-2" onClick={handleClick}>
-          <SearchIcon />
-        </button>
+        <Formik onSubmit={handleSubmit} initialValues={{ searchInput: "" }}>
+          <Form className="flex flex-1">
+            <Field
+              name="searchInput"
+              className="block w-full border-2 px-4 py-2 rounded-lg text-black"
+              placeholder="Search Youtube or paste Youtube URL"
+              innerRef={inputEl}
+            />
+            <button className="px-4 py-2" onClick={handleSubmit}>
+              <SearchIcon />
+            </button>
+          </Form>
+        </Formik>
       </div>
       <div className="px-4 ">
-        Search Result:
-        {searchResult && (
-          <ul className="rounded-lg overflow-hidden">
-            {searchResult.map((song, id) => (
-              <li key={id}>
-                <SearchItem
-                  title={id}
-                  artist={song}
-                  handleAddSong={() =>
-                    handleAddSong({ title: id, artist: song })
-                  }
-                />
-              </li>
-            ))}
-          </ul>
+        {searchResult.length > 0 && (
+          <>
+            Search Result:
+            <ul className="rounded-lg overflow-hidden">
+              {searchResult.map((result, id) => (
+                <li key={id}>
+                  <SearchItem
+                    title={result.title}
+                    artist={result.artist}
+                    handleAddSong={() =>
+                      handleAddSong({
+                        title: result.title,
+                        artist: result.artist,
+                        videoId: result.videoId,
+                      })
+                    }
+                  />
+                </li>
+              ))}
+            </ul>
+          </>
         )}
       </div>
     </div>

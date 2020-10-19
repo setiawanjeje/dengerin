@@ -2,6 +2,9 @@ const { colors } = require("tailwindcss/defaultTheme");
 
 module.exports = {
   theme: {
+    inset: {
+      "1/2": "50%",
+    },
     extend: {
       colors: {
         orange: {

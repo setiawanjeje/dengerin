@@ -2,10 +2,9 @@ import { connect } from "react-redux";
 import ReactPlayer from "react-player";
 
 const mapStateToProps = (state) => {
-  const { playlist } = state;
+  const { nowPlaying } = state;
   return {
-    url: playlist.map((p) => `https://www.youtube.com/watch?v=${p.song}`),
-    playing: true,
+    url: `https://www.youtube.com/watch?v=${nowPlaying.videoId}`,
   };
 };
 

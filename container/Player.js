@@ -9,4 +9,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(Player);
+const mapDispatchToProps = (dispatch) => {
+  return { handleNowPlaying: (payload) => dispatch(setNowPlaying(payload)) };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Player);
