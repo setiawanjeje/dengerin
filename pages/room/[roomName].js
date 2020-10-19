@@ -23,7 +23,7 @@ function RoomPage() {
     config: { ...config.gentle, duration: 200 },
   });
   const transitionMenuPage = useTransition(isShowMenu, null, {
-    from: { opacity: 0 },
+    from: { top: 0, opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
     config: { ...config.gentle, duration: 200 },
@@ -104,7 +104,7 @@ function RoomPage() {
             <animated.div
               key={key}
               style={props}
-              className="absolute w-full z-10 h-screen top-0"
+              className="absolute w-full z-10 h-screen"
             >
               <MenuPage handleClose={() => setIsShowMenu(!isShowMenu)} />
             </animated.div>
