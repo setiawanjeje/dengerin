@@ -2,7 +2,8 @@ import axios from "axios";
 // import { URL } from "./urls";
 
 // TODO : should store the information in more secure / separate file
-const API_KEY = "AIzaSyCGX5i8Bt-AO7DDcDHLPHIMkiryDGfEeRY";
+// const API_KEY = "AIzaSyCGX5i8Bt-AO7DDcDHLPHIMkiryDGfEeRY";
+const API_KEY = "AIzaSyBQwiKuNZuGSEUr4x_u4uF-QbzB01lYY3w"; // API JEJE
 
 export function searchYT(query) {
   return axios

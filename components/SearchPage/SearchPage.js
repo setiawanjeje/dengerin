@@ -4,6 +4,7 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import SearchItem from "../SearchItem/SearchItem";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { searchYT } from "../../services/youtube";
+import { db } from "../../services/firebase";
 
 const mockSearchResult = [
   {
@@ -31,6 +32,15 @@ function SearchPage(props) {
   }, []);
 
   const handleSubmit = (values) => {
+    if (prefix == youtube) {
+      // const firebaseRef = db.collection("rooms").doc("123");
+      // const payload = {
+      //   ytURL: values,
+      // };
+      // firebaseRef.set(payload);
+    } else {
+    }
+
     // searchYT(values.searchInput).then((res) => {
     //   const newSearchResult = res.items.map((item) => {
     //     return {
