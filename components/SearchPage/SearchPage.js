@@ -8,16 +8,20 @@ import { db } from "../../services/firebase";
 
 const mockSearchResult = [
   {
-    title: "How can I love the heartbreak, you're the one I love",
+    title:
+      "AKMU - '어떻게 이별까지 사랑하겠어, 널 사랑하는 거지(How can I love the heartbreak, you`re the one I love)' M/V",
     artist: "AKMU",
+    videoId: "m3DZsBw5bnE",
   },
   {
     title: "Location Unknown",
     artist: "HONNE",
+    videoId: "btIQvYcLNoI",
   },
   {
     title: "cardigan",
     artist: "Taylor Swift",
+    videoId: "K-a8s8OLBSE",
   },
 ];
 
@@ -25,7 +29,7 @@ function SearchPage(props) {
   const { handleAddSong, handleBack } = props;
   const inputEl = useRef(null);
   const [input, setInput] = useState("");
-  const [searchResult, setSearchResult] = useState([]);
+  const [searchResult, setSearchResult] = useState(mockSearchResult);
 
   useEffect(() => {
     inputEl.current.focus();

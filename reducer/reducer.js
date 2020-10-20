@@ -5,9 +5,10 @@ export const initialState = {
   username: "",
   playlist: [],
   nowPlaying: {
-    title: "[MV] Zion.T _ Eat(꺼내 먹어요)",
-    artist: "1theK (원더케이)",
-    videoId: "Ibb5RhoKfzE",
+    title: "",
+    artist: "",
+    videoId: "",
+    isPlaying: false,
   },
 };
 
@@ -15,6 +16,7 @@ const LOG_IN = "LOG_IN";
 const SET_NOW_PLAYING = "SET_NOW_PLAYING";
 const ADD_SONG_TO_PLAYLIST = "ADD_SONG_TO_PLAYLIST";
 const REMOVE_SONG_FROM_PLAYLIST = "REMOVE_SONG_FROM_PLAYLIST";
+const SET_IS_PLAYING = "SET_IS_PLAYING";
 
 // action creator
 export const login = (payload) => {
@@ -45,6 +47,13 @@ export const removeSongFromPlaylist = (payload) => {
   };
 };
 
+export const setIsPlaying = (payload) => {
+  return {
+    type: SET_IS_PLAYING,
+    payload,
+  };
+};
+
 export const reducer = (state, action) => {
   let clonePlaylist = [...state.playlist];
   switch (action.type) {
@@ -61,6 +70,7 @@ export const reducer = (state, action) => {
           title: action.payload.title,
           artist: action.payload.artist,
           videoId: action.payload.videoId,
+          isPlaying: true,
         },
       };
     case ADD_SONG_TO_PLAYLIST:
@@ -77,6 +87,14 @@ export const reducer = (state, action) => {
       return {
         ...state,
         playlist: clonePlaylist.filter((value) => value.id !== action.payload),
+      };
+    case SET_IS_PLAYING:
+      return {
+        ...state,
+        nowPlaying: {
+          ...state.nowPlaying,
+          isPlaying: action.payload.isPlaying,
+        },
       };
     default:
       return state;
