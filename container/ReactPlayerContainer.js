@@ -3,9 +3,14 @@ import ReactPlayer from "react-player";
 import { setIsPlaying } from "../reducer/reducer";
 
 const mapStateToProps = (state) => {
-  const { nowPlaying } = state;
+  const { nowPlaying, playlist } = state;
   return {
-    url: `https://www.youtube.com/watch?v=${nowPlaying.videoId}`,
+    url:
+      nowPlaying.index !== null
+        ? `https://www.youtube.com/watch?v=${
+            playlist[nowPlaying.index].videoId
+          }`
+        : null,
     playing: nowPlaying.isPlaying,
   };
 };

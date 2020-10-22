@@ -80,7 +80,7 @@ function SearchPage(props) {
       <div className="px-4 ">
         {searchResult.length > 0 && (
           <>
-            Search Result:
+            <p className="mb-2">Search Result:</p>
             <ul className="rounded-lg overflow-hidden">
               {searchResult.map((result, id) => (
                 <li key={id}>
