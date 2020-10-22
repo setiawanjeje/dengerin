@@ -5,9 +5,7 @@ export const initialState = {
   username: "",
   playlist: [],
   nowPlaying: {
-    title: "",
-    artist: "",
-    videoId: "",
+    index: null,
     isPlaying: false,
   },
 };
@@ -17,6 +15,7 @@ const SET_NOW_PLAYING = "SET_NOW_PLAYING";
 const ADD_SONG_TO_PLAYLIST = "ADD_SONG_TO_PLAYLIST";
 const REMOVE_SONG_FROM_PLAYLIST = "REMOVE_SONG_FROM_PLAYLIST";
 const SET_IS_PLAYING = "SET_IS_PLAYING";
+const PLAY_NEXT_SONG = "PLAY_NEXT_SONG";
 
 // action creator
 export const login = (payload) => {
@@ -47,6 +46,13 @@ export const removeSongFromPlaylist = (payload) => {
   };
 };
 
+export const playNextSong = (payload) => {
+  return {
+    type: PLAY_NEXT_SONG,
+    payload,
+  };
+};
+
 export const setIsPlaying = (payload) => {
   return {
     type: SET_IS_PLAYING,
@@ -67,9 +73,7 @@ export const reducer = (state, action) => {
       return {
         ...state,
         nowPlaying: {
-          title: action.payload.title,
-          artist: action.payload.artist,
-          videoId: action.payload.videoId,
+          index: action.payload.index,
           isPlaying: true,
         },
       };
@@ -94,6 +98,19 @@ export const reducer = (state, action) => {
         nowPlaying: {
           ...state.nowPlaying,
           isPlaying: action.payload.isPlaying,
+        },
+      };
+    case PLAY_NEXT_SONG:
+      const lengthPlaylist = state.playlist.length;
+      let nextIndex =
+        state.nowPlaying.index + 1 === lengthPlaylist
+          ? 0
+          : state.nowPlaying.index + 1;
+      return {
+        ...state,
+        nowPlaying: {
+          index: nextIndex,
+          isPlaying: true,
         },
       };
     default:

@@ -3,7 +3,14 @@ import { Pause, PlayArrow, SkipNext } from "@material-ui/icons";
 import ProgressBar from "../ProgressBar/ProgressBar";
 
 function Player(props) {
-  const { title, artist, onClickPlay, progressNowPlaying, isPlaying } = props;
+  const {
+    title,
+    artist,
+    onClickPlay,
+    progressNowPlaying,
+    isPlaying,
+    onClickNext,
+  } = props;
 
   const IconComponent = isPlaying ? Pause : PlayArrow;
   return (
@@ -25,7 +32,7 @@ function Player(props) {
           >
             <IconComponent fontSize="large" />
           </button>
-          <button className="px-4 h-full">
+          <button className="px-4 h-full" onClick={onClickNext}>
             <SkipNext fontSize="large" />
           </button>
         </div>
