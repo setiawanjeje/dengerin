@@ -12,7 +12,6 @@ function Home(props) {
       roomName: value.roomName,
       username: value.username,
     });
-    // console.log(props);
     router.push(`/room/${value.roomName}`);
   };
 

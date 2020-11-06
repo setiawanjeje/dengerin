@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch) => {
     setNowPlaying: (payload) => dispatch(setNowPlaying(payload)),
     removeSongFromPlaylist: (payload) =>
       dispatch(removeSongFromPlaylist(payload)),
-    onPauseSong: () => dispatch(setIsPlaying({ isPlaying: false })),
+    onPauseSong: () => dispatch(setIsPlaying(false)),
   };
 };
 

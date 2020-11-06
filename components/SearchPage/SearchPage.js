@@ -25,6 +25,15 @@ const mockSearchResult = [
   },
 ];
 
+function getParameterByName(name, url = window.location.href) {
+  name = name.replace(/[\[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+    results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return "";
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
 function SearchPage(props) {
   const { handleAddSong, handleBack } = props;
   const inputEl = useRef(null);
@@ -36,13 +45,26 @@ function SearchPage(props) {
   }, []);
 
   const handleSubmit = (values) => {
-    if (prefix == youtube) {
-      // const firebaseRef = db.collection("rooms").doc("123");
-      // const payload = {
-      //   ytURL: values,
-      // };
-      // firebaseRef.set(payload);
-    } else {
+    // contoh input : https://www.youtube.com/watch?v=ZZ41gWvltT8
+    const prefixYoutube = "https://www.youtube.com/";
+    if (values.searchInput) {
+      if (values.searchInput.startsWith(prefixYoutube)) {
+        const videoId = getParameterByName("v", values.searchInput);
+        console.log(videoId);
+        setSearchResult([
+          {
+            title: "aaa", // Fawwaz's suggested song
+            artist: "bbb",
+            videoId: videoId,
+          },
+        ]);
+        // const firebaseRef = db.collection("rooms").doc("123");
+        // const payload = {
+        //   ytURL: values,
+        // };
+        // firebaseRef.set(payload);
+      } else {
+      }
     }
 
     // searchYT(values.searchInput).then((res) => {

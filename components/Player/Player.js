@@ -27,7 +27,7 @@ function Player(props) {
           <button
             className="px-4 h-full"
             onClick={() => {
-              onClickPlay({ isPlaying: !isPlaying });
+              onClickPlay(!isPlaying);
             }}
           >
             <IconComponent fontSize="large" />

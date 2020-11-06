@@ -3,18 +3,9 @@ import Link from "next/link";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import CloseIcon from "@material-ui/icons/Close";
 
-const mockUserList = [
-  {
-    name: "Jessica",
-    id: 1,
-  },
-  {
-    name: "Park Bo Gum",
-    id: 2,
-  },
-];
-
 function MenuPage(props) {
+  const { users } = props;
+
   return (
     <div className="h-screen bg-white w-full px-4">
       <div className="flex justify-end">
@@ -32,14 +23,14 @@ function MenuPage(props) {
       </Link>
       <div className="rounded-md">
         <div className="mb-4">Active user:</div>
-        {mockUserList &&
-          mockUserList.map((user, key) => (
+        {users &&
+          users.map((user, key) => (
             <div
               key={key}
               className="flex justify-between px-4 py-2 bg-gray-100"
             >
               <div>{user.name}</div>
-              <div className="text-gray-500">#{user.id}</div>
+              <div className="text-gray-500">{user.id}</div>
             </div>
           ))}
       </div>

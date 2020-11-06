@@ -1,4 +1,5 @@
-import fb from "firebase";
+import fb from "firebase/app";
+import "firebase/firestore";
 
 if (!fb.apps.length) {
   const config = {

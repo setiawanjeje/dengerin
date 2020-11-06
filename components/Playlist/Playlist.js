@@ -22,7 +22,7 @@ function Playlist(props) {
                 artist={song.artist}
                 title={song.title}
                 isPlaying={index === nowPlayingIndex && isPlaying}
-                handleRemoveSong={() => removeSongFromPlaylist(song.id)}
+                handleRemoveSong={() => removeSongFromPlaylist(song.videoId)}
                 handleSetNowPlaying={() =>
                   setNowPlaying({
                     index: index,
