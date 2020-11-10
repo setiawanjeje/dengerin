@@ -6,7 +6,7 @@ function Playlist(props) {
     playlist,
     removeSongFromPlaylist,
     setNowPlaying,
-    nowPlayingIndex,
+    nowPlayingId,
     onPauseSong,
     isPlaying,
   } = props;
@@ -21,13 +21,9 @@ function Playlist(props) {
               <PlaylistSong
                 artist={song.artist}
                 title={song.title}
-                isPlaying={index === nowPlayingIndex && isPlaying}
-                handleRemoveSong={() => removeSongFromPlaylist(song.videoId)}
-                handleSetNowPlaying={() =>
-                  setNowPlaying({
-                    index: index,
-                  })
-                }
+                isPlaying={song.id === nowPlayingId && isPlaying}
+                handleRemoveSong={() => removeSongFromPlaylist(song.id)}
+                handleSetNowPlaying={() => setNowPlaying(song.id)}
                 onPause={onPauseSong}
               />
             </li>

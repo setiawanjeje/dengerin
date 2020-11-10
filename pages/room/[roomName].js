@@ -6,8 +6,8 @@ import {
   replaceUsers,
   replaceNowPlaying,
   logout,
-  setNowPlaying,
   setIsPlaying,
+  handlePlayNextSong,
 } from "../../reducer/reducer";
 import Link from "next/link";
 
@@ -30,9 +30,10 @@ function RoomPage(props) {
   const {
     playlist,
     users,
-    nowPlayingIndex,
+    nowPlayingId,
     isPlaying,
     setIsPlaying,
+    handlePlayNextSong,
     replacePlaylist,
     replaceUsers,
     replaceNowPlaying,
@@ -45,15 +46,16 @@ function RoomPage(props) {
   const [videoProgressPercentage, setVideoProgressPercentage] = useState(0);
   const [videoDuration, setVideoDuration] = useState(0);
 
+  const nowPlayingSong = playlist.find((item) => item.id === nowPlayingId);
   const urlPlayer =
-    nowPlayingIndex !== null && playlist
-      ? `https://www.youtube.com/watch?v=${playlist[nowPlayingIndex].videoId}`
-      : null;
+    nowPlayingSong &&
+    `https://www.youtube.com/watch?v=${nowPlayingSong.videoId}`;
 
   useEffect(() => {
     const roomName = router.query.roomName;
 
     if (roomName && username) {
+      // Get playlist
       db.collection("rooms")
         .doc(roomName)
         .collection("playlist")
@@ -64,31 +66,39 @@ function RoomPage(props) {
               title: doc.data().title,
               artist: doc.data().artist,
               videoId: doc.data().videoId,
+              id: doc.id,
             });
           });
           replacePlaylist(songs);
         });
 
+      // Get users
       db.collection("rooms")
         .doc(roomName)
         .collection("users")
         .onSnapshot(function (querySnapshot) {
-          var users = [];
-          querySnapshot.forEach(function (doc) {
-            users.push({ name: doc.data().username, id: doc.id });
-          });
+          let users = [];
+          if (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+              users.push({ name: doc.data().username, id: doc.id });
+            });
+          }
           replaceUsers(users);
         });
 
+      // Get now playing
       db.collection("rooms")
         .doc(roomName)
         .onSnapshot(function (dbNowPlaying) {
-          replaceNowPlaying(dbNowPlaying.data().nowPlaying);
+          if (dbNowPlaying.data()) {
+            replaceNowPlaying(dbNowPlaying.data().nowPlaying);
+          }
         });
     }
     return () => {
       logout();
       if (roomName && username) {
+        // Remove this user from userlist
         db.collection("rooms")
           .doc(roomName)
           .collection("users")
@@ -109,7 +119,6 @@ function RoomPage(props) {
           .catch(function (error) {
             console.error("Error removing document: ", error);
           });
-        console.log("unmount!!!");
       }
     };
   }, [router.query.roomName]);
@@ -170,6 +179,8 @@ function RoomPage(props) {
                   playing={isPlaying}
                   onPlay={() => setIsPlaying(true)}
                   onPause={() => setIsPlaying(false)}
+                  onEnded={() => handlePlayNextSong()}
+                  controls={true}
                 />
               </NoSSR>
             </div>
@@ -232,7 +243,7 @@ const mapStateToProps = (state) => {
   return {
     users: users,
     playlist: playlist,
-    nowPlayingIndex: nowPlaying.index,
+    nowPlayingId: nowPlaying.id,
     isPlaying: nowPlaying.isPlaying,
     username: username,
   };
@@ -244,6 +255,7 @@ const mapDispatchToProps = (dispatch) => {
     replaceUsers: (payload) => dispatch(replaceUsers(payload)),
     replaceNowPlaying: (payload) => dispatch(replaceNowPlaying(payload)),
     setIsPlaying: (payload) => dispatch(setIsPlaying(payload)),
+    handlePlayNextSong: () => dispatch(handlePlayNextSong()),
     logout: () => dispatch(logout()),
   };
 };

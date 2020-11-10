@@ -9,7 +9,7 @@ import {
 const mapStateToProps = (state) => {
   return {
     playlist: state.playlist,
-    nowPlayingIndex: state.nowPlaying.index,
+    nowPlayingId: state.nowPlaying.id,
     isPlaying: state.nowPlaying.isPlaying,
   };
 };

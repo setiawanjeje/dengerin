@@ -1,10 +1,10 @@
 import SearchPage from "../components/SearchPage/SearchPage";
 import { connect } from "react-redux";
-import { addSongToPlaylist } from "../reducer/reducer";
+import { addSongToPlayList } from "../reducer/reducer";
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleAddSong: (payload) => dispatch(addSongToPlaylist(payload)),
+    handleAddSong: (payload) => dispatch(addSongToPlayList(payload)),
   };
 };
 
