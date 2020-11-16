@@ -1,4 +1,25 @@
 import { db } from "../services/firebase";
+import { ThunkDispatch, ThunkAction } from "redux-thunk";
+
+interface Song {
+  title: string;
+  videoId: string;
+  artist: string;
+  id: string;
+}
+
+interface StateNowPlaying {
+  id: string | null;
+  isPlaying: boolean;
+}
+
+interface StateTree {
+  roomName: string;
+  username: string;
+  users: Array<string>;
+  playlist: Array<Song>;
+  nowPlaying: StateNowPlaying;
+}
 
 export const initialState = {
   roomName: "",
@@ -23,9 +44,8 @@ const REPLACE_NOWPLAYING = "REPLACE_NOWPLAYING";
 const LOG_OUT = "LOG_OUT";
 
 // action creator
-export const login = (payload) => {
-  return (dispatch, getState) => {
-    const state = getState();
+export const login = (payload: { username: string; roomName: string }) => {
+  return (dispatch: ThunkDispatch<{}, {}, any>) => {
     db.collection("rooms")
       .doc(payload.roomName)
       .collection("users")
@@ -43,15 +63,14 @@ export const login = (payload) => {
   };
 };
 
-export const logout = (payload) => {
+export const logout = () => {
   return {
     type: LOG_OUT,
-    payload,
   };
 };
 
-export const setNowPlaying = (payload) => {
-  return (dispatch, getState) => {
+export const setNowPlaying = (payload: string) => {
+  return (dispatch: ThunkDispatch<{}, {}, any>, getState: () => StateTree) => {
     const state = getState();
     db.collection("rooms")
       .doc(state.roomName)
@@ -68,8 +87,8 @@ export const setNowPlaying = (payload) => {
   };
 };
 
-export const addSongToPlayList = (payload) => {
-  return (dispatch, getState) => {
+export const addSongToPlayList = (payload: Song) => {
+  return (dispatch: ThunkDispatch<{}, {}, any>, getState: () => StateTree) => {
     const state = getState();
 
     db.collection("rooms").doc(state.roomName).collection("playlist").add({
@@ -85,8 +104,8 @@ export const addSongToPlayList = (payload) => {
   };
 };
 
-export const removeSongFromPlaylist = (payload) => {
-  return (dispatch, getState) => {
+export const removeSongFromPlaylist = (payload: string) => {
+  return (dispatch: ThunkDispatch<{}, {}, any>, getState: () => StateTree) => {
     const state = getState();
     db.collection("rooms")
       .doc(state.roomName)
@@ -114,7 +133,7 @@ export const removeSongFromPlaylist = (payload) => {
       .doc(state.roomName)
       .collection("playlist")
       .onSnapshot(function (querySnapshot) {
-        var songs = [];
+        var songs: Array<Song> = [];
         querySnapshot.forEach(function (doc) {
           songs.push({
             title: doc.data().title,
@@ -133,33 +152,35 @@ export const removeSongFromPlaylist = (payload) => {
 };
 
 export const handlePlayNextSong = () => {
-  return (dispatch, getState) => {
+  return (dispatch: ThunkDispatch<{}, {}, any>, getState: () => StateTree) => {
     const state = getState();
 
-    let nextIndex;
+    let nextIndex: number | null = null;
     state.playlist.forEach((song, idx) => {
       if (state.nowPlaying.id === song.id) {
         nextIndex = idx + 1 === state.playlist.length ? 0 : idx + 1;
       }
     });
 
-    db.collection("rooms")
-      .doc(state.roomName)
-      .set({
-        nowPlaying: {
-          id: state.playlist[nextIndex].id,
-          isPlaying: true,
-        },
+    if (nextIndex !== null) {
+      db.collection("rooms")
+        .doc(state.roomName)
+        .set({
+          nowPlaying: {
+            id: state.playlist[nextIndex].id,
+            isPlaying: true,
+          },
+        });
+      dispatch({
+        type: PLAY_NEXT_SONG,
+        payload: state.playlist[nextIndex].id,
       });
-    dispatch({
-      type: PLAY_NEXT_SONG,
-      payload: state.playlist[nextIndex].id,
-    });
+    }
   };
 };
 
-export const setIsPlaying = (payload) => {
-  return (dispatch, getState) => {
+export const setIsPlaying = (payload: boolean) => {
+  return (dispatch: ThunkDispatch<{}, {}, any>, getState: () => StateTree) => {
     const state = getState();
     db.collection("rooms")
       .doc(state.roomName)
@@ -178,28 +199,31 @@ export const setIsPlaying = (payload) => {
   };
 };
 
-export const replacePlaylist = (payload) => {
+export const replacePlaylist = (payload: Array<Song>) => {
   return {
     type: REPLACE_PLAYLIST,
     payload,
   };
 };
 
-export const replaceUsers = (payload) => {
+export const replaceUsers = (payload: Array<string>) => {
   return {
     type: REPLACE_USERS,
     payload,
   };
 };
 
-export const replaceNowPlaying = (payload) => {
+export const replaceNowPlaying = (payload: StateNowPlaying) => {
   return {
     type: REPLACE_NOWPLAYING,
     payload,
   };
 };
 
-export const reducer = (state, action) => {
+export const reducer = (
+  state: StateTree,
+  action: ThunkAction<{}, {}, {}, any>
+) => {
   let clonePlaylist = [...state.playlist];
   switch (action.type) {
     case LOG_IN:
